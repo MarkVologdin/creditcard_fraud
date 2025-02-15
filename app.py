@@ -5,15 +5,24 @@ import seaborn as sns
 import joblib
 from sklearn.metrics import classification_report, roc_auc_score
 import gdown
+import os
 
-file_id = "18yJSdWlpfFeDLhgqlNgt-BKR5c3bVUL4"
-url = f"https://drive.google.com/uc?id={file_id}"
+# Название файла датасета
+DATASET_FILENAME = "creditcard.csv"
 
-output = "creditcard.csv"
-gdown.download(url, output, quiet=False)
+# Проверяем, существует ли файл в текущей директории
+if not os.path.exists(DATASET_FILENAME):
+    st.write("Датасет не найден, выполняем скачивание...")
+    file_id = "18yJSdWlpfFeDLhgqlNgt-BKR5c3bVUL4"
+    url = f"https://drive.google.com/uc?id={file_id}"
+    
+    gdown.download(url, DATASET_FILENAME, quiet=False)
+    st.write("Датасет успешно скачан!")
+else:
+    st.write("Датасет уже существует. Скачивание не требуется.")
 
 # Загрузка данных
-df = pd.read_csv(output)
+df = pd.read_csv(DATASET_FILENAME)
 
 # Заголовок страницы
 st.title("Моделирование и визуализация данных о мошенничестве с картами")
